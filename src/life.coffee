@@ -9,7 +9,7 @@ _life =
         x: 0
         y: 0
         wallEdges: true
-        interval: 5
+        interval: 500 # half second
 
 window._life = _life
 
