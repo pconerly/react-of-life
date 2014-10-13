@@ -12,6 +12,7 @@ WelcomePage = React.createClass(
     <span className="MyComponent">
       <p>Welcome to the Conways Game of Life showdown between React and Backbone.
       <br/>Click <a href="#react">here for React</a> and <a href="#backbone">here for backbone.</a>
+      <br/>You should open each of these in new windows.
       </p>
     </span>
 )
