@@ -5,21 +5,23 @@ merge = require('react/lib/merge')
 _life = 
     board: null
     step: 0
+    lastTickstamp: 0
+    thisTickstamp: 0
     config:
         x: 0
         y: 0
         wallEdges: true
-        interval: 500 # half second
+        interval: 5000 
+        timerId: null
+
+
 
 window._life = _life
-
-console.log merge
-console.log EventEmitter
 
 CHANGE_EVENT = 'changederp'
 
 outer_iterate = ->
-    LifeStore.iterate()
+    LifeStore.updateBoard()
 
 
 LifeStore = merge(EventEmitter::, 
@@ -43,15 +45,25 @@ LifeStore = merge(EventEmitter::,
 
 
     start: () ->
-        @iterate()
+        _life.thisTickstamp = new Date().getTime()
+        _life.config.timerId = setInterval outer_iterate, _life.config.interval
 
-    iterate: ->
-        # console.log "interval #{_life.step}"
-        setTimeout outer_iterate, _life.config.interval
-        @updateBoard()
+    stop: ->
+        clearInterval _life.config.timerId
+
+    updateInterval: (newInterval) ->
+        if newInterval isnt _life.config.interval
+            _life.config.interval = newInterval
+            @stop()
+            @start()
+            @emitChange()
 
     getState: ->
-        return _life.board
+        return {
+            board: _life.board
+            interval: _life.config.interval
+            timeSinceLastTick: _life.thisTickstamp - _life.lastTickstamp
+        }
 
     updateBoard: ->
         newBoard = @makeBoard()
@@ -62,6 +74,8 @@ LifeStore = merge(EventEmitter::,
         _.extend _life, {
             board: newBoard
             step: _life.step+1
+            lastTickstamp: _life.thisTickstamp
+            thisTickstamp: new Date().getTime()
         }
         @emitChange()
 

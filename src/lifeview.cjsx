@@ -39,9 +39,7 @@ LifeStore.seed([
 
 
 getLifeState = ->
-  return {
-    board: LifeStore.getState()
-  }
+  return LifeStore.getState()
 
 LifeView = React.createClass(
 
@@ -60,7 +58,6 @@ LifeView = React.createClass(
     @setState getLifeState()
 
   render: ->
-    # return <span className="LifeView">Hello, react life view!</span>
     cells = []
     key = 0
     for col in @state.board

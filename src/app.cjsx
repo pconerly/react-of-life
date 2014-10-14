@@ -2,8 +2,10 @@ $ = require 'jquery'
 _ = require 'underscore'
 Backbone = require("backbone")
 React = require("react")
+IntervalSettings = require './intervalsettings.cjsx'
 LifeView = require './lifeview.cjsx'
 LifeBackbone = require './lifebackbone.coffee'
+LifeStore = require './life.coffee'
 
 Backbone.$ = $
 
@@ -35,18 +37,28 @@ Router = Backbone.Router.extend
     console.log "react"
     $(document).attr('title', 'react-of-life')
     React.renderComponent(
+      <IntervalSettings />,
+      document.getElementById('admin')
+      )
+    React.renderComponent(
       <LifeView />,
       document.getElementById('content')
       )
 
   backbone: ->
     console.log "backbone"
+    React.renderComponent(
+      <IntervalSettings />,
+      document.getElementById('admin')
+      )
     $(document).attr('title', 'backbone-of-life')
     lifebackbone = new LifeBackbone()
 
+    outer_onchange = () ->
+      lifebackbone._onChange()
+
+    LifeStore.addChangeListener(outer_onchange)
 
 
 new Router()
-
-
 Backbone.history.start()

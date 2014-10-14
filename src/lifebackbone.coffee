@@ -14,9 +14,8 @@ LifeBackbone = Backbone.View.extend
     el: '#content'
 
     initialize: () ->
-        'pass'
-        _.bind(@_onChange, @)
-        LifeStore.addChangeListener(@sillyRender)
+        source = $('#LifeTemplate').html()
+        @template = Handlebars.compile(source)
 
         LifeStore.config
           x: 100
@@ -37,34 +36,12 @@ LifeBackbone = Backbone.View.extend
 
 
     render: ->
-        # @$('div')
-        # 'hmmmm'
-        source = $('#LifeTemplate').html()
-        template = Handlebars.compile(source)
-        html = template(@board.toJSON())
+        html = @template(@state)
         @$el.html(html)
 
     _onChange: () ->
-        # @setState getLifeState()
-        # console.log "LifeBackbone: _onChange"
-        @board = LifeStore.getState()
+        @state = LifeStore.getState()
         @render()
-
-    sillyRender: () ->
-        # console.log "silly render"
-        $container = $('#content')
-        board = {
-            board: LifeStore.getState()
-        }
-        source = $('#LifeTemplate').html()
-        template = Handlebars.compile(source)
-        html = template(board)
-        # console.log html
-        $container.html(html)
-
-
-
-
 
 
 module.exports = LifeBackbone
