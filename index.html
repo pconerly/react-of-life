@@ -9,23 +9,6 @@
 <body>
   <div id="admin"></div>
   <div id="content"></div>
-
-    <script id="LifeTemplate" type="text/x-handlebars-template">
-        <div class="everything">
-            <div class="board">
-                {{#each board}}
-                    {{#each this}}
-                        {{#if @first}}
-                            <div class="cell-first cell alive-{{this}}"></div>
-                        {{else}}
-                            <div class="cell alive-{{this}}"></div>
-                        {{/if}}
-                    {{/each}}
-                {{/each}}
-            <div>
-        </div>
-    </script>
-
-    <script src="build/app.js" type="text/javascript" ></script>
+  <script src="build/app.js" type="text/javascript" ></script>
 </body>
 </html>
