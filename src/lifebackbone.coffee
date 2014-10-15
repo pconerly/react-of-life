@@ -10,16 +10,29 @@ console.log 'Handlebars'
 console.log Handlebars
 window.Handlebars = Handlebars
 
+LifeCell = Backbone.View.extend
+    className: 'cell alive-false'
+    initialize: (first) ->
+        model = new Backbone.Model
+          alive: false
+        @model = model
+
+        if first
+            @$el.addClass 'cell-first'
+        this.listenTo model, 'change:alive', (alive) ->
+            @$el.toggleClass('alive-true', alive)
+            @$el.toggleClass('alive-false', !alive)
+
 LifeBackbone = Backbone.View.extend 
     el: '#content'
 
     initialize: () ->
-        source = $('#LifeTemplate').html()
-        @template = Handlebars.compile(source)
+        @x = 100
+        @y = 100
 
         LifeStore.config
-          x: 100
-          y: 100
+          x: @x
+          y: @y
 
         LifeStore.seed([
           # acorn
@@ -34,14 +47,21 @@ LifeBackbone = Backbone.View.extend
 
         LifeStore.start()
 
+        @board = []
 
-    render: ->
-        html = @template(@state)
-        @$el.html(html)
+        for i in [0..@x - 1]
+            @board[i] = []
+            for j in [0..@y - 1]
+                cell = @board[i][j] = new LifeCell
+                if j is 0
+                    cell.$el.addClass('cell-first')
+                @$el.append(cell.el)
 
     _onChange: () ->
         @state = LifeStore.getState()
-        @render()
+        for i in [0..@x - 1]
+            for j in [0..@y - 1]
+                @board[i][j].model.set 'alive', @state.board[i][j]
 
 
 module.exports = LifeBackbone
