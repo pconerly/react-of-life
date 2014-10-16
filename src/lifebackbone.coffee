@@ -34,16 +34,7 @@ LifeBackbone = Backbone.View.extend
           x: @x
           y: @y
 
-        LifeStore.seed([
-          # acorn
-          [40, 40]
-          [42, 41]
-          [39, 42]
-          [40, 42]
-          [43, 42]
-          [44, 42]
-          [45, 42]
-          ])
+        LifeStore.seed(LifeStore.ACORN)
 
         LifeStore.start()
 

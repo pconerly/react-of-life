@@ -11,7 +11,7 @@ _life =
         x: 0
         y: 0
         wallEdges: true
-        interval: 5000 
+        interval: 100 
         timerId: null
 
 
@@ -120,6 +120,25 @@ LifeStore = merge(EventEmitter::,
     removeChangeListener: (callback) ->
         @removeListener CHANGE_EVENT, callback
         return
+
+    R_PENTOMINO: [
+        [50, 49]
+        [51, 49]
+        [50, 50]
+        [50, 51]
+        [49, 50]
+    ]
+
+    ACORN: [
+        [40, 40]
+        [42, 41]
+        [39, 42]
+        [40, 42]
+        [43, 42]
+        [44, 42]
+        [45, 42]
+    ]
+
 
 )
 
